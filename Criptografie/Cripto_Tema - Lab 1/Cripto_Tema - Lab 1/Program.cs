@@ -111,7 +111,7 @@ namespace Tema_Criptografie_Lab_1
     }
 
     // -------------------------------------    Classes     ----------------------------------------------
-    public  class Words :Letters ,  ILoadCommonWords
+    public abstract class Words :Letters ,  ILoadCommonWords
     {
 
         // ------------------------------- Reading common words -----------------------------------------
@@ -135,7 +135,7 @@ namespace Tema_Criptografie_Lab_1
         }
     }
 
-    public  class Letters : ILoadLetterFrequency
+    public  abstract class Letters : ILoadLetterFrequency
     {
 
         // -------------------------------- Reading Letter Frequency -----------------------------------
