@@ -7,59 +7,28 @@ using System.Threading.Tasks;
 
 namespace Cripto_Tema_2_Lab_3
 {
-    // ---------------------------------------   INTERFACE   ----------------------------------------------
-    interface IShuffle
-    {
-         void Shuffle(char[] newKey);
-    }
-
-    // ---------------------------------------   POLIALPHABET    --------------------------------------------
-
-    public class Polialphabet : Cryptography , IShuffle
+   
+    public class Polialphabet : Cryptography
     {
     // -----------------------------------------    FIELD   ---------------------------------------------------
         private int n;
-        private Dictionary<int ,Dictionary<char,char>> Keys = new Dictionary<int, Dictionary<char, char>> ();
-        private char[] cipherText;
-        private char[] plainText;
+        private Dictionary<int, Dictionary<char, char>> Keys = new Dictionary<int, Dictionary<char, char>>();
 
-    // -----------------------------------------    CONSTRUCTOR     -------------------------------------------------
+        // -----------------------------------------    CONSTRUCTOR     -------------------------------------------------
 
-        public Polialphabet(int n, string input )
+        public Polialphabet(int n, string plaintext )
         {
             this.n = n;
-            NormalizePlaintext( input );
+            NormalizePlaintext( plaintext );
             GenerateNKeys();
         }
 
-    // -------------------------------------------     METHODS     ---------------------------------------------------
-        public void Shuffle(char[] newKey)
-        {
-            for (int i = 0; i < newKey.Length - 2; i++)
-            {
-                Random rn = new Random();
-                int j = rn.Next(i, newKey.Length - 1);
-                char aux = newKey[i];
-                newKey[i] = newKey[j];
-                newKey[j] = aux;
-            }
-        }
-
-        private void NormalizePlaintext(string input)
-        {
-            string[] RemovingPunctuation = input.Split(' ', ',', '.', '!', '?', ':', ';');
-            string newInput = "";
-
-            for (int i = 0; i < RemovingPunctuation.Length; i++)
-                newInput = newInput + RemovingPunctuation[i].ToUpper();
-
-            plainText = newInput.ToCharArray();
-        }
+        // -------------------------------------------     METHODS     ---------------------------------------------------
         private void GenerateNKeys()
         {
             for (int indexKey = 0; indexKey < n; indexKey++)
             {
-                char[] newKey= alphabet.ToCharArray();
+                char[] newKey = alphabet.ToCharArray();
                 Dictionary<char, char> PartKey = new Dictionary<char, char>();
 
                 if (Keys.Count == 0)
@@ -81,7 +50,7 @@ namespace Cripto_Tema_2_Lab_3
                             PartKey[alphabet[i]] = newKey[i];
 
                         for (int i = 0; i < Keys.Count; i++)
-                            if (DictionarsEquality(Keys[i], PartKey)==false)
+                            if (DictionarsEquality(Keys[i], PartKey) == false)
                                 DoubleDictionary = true;
                     }
                 }
@@ -89,16 +58,16 @@ namespace Cripto_Tema_2_Lab_3
             }
         }
 
-        private bool DictionarsEquality(Dictionary<char,char> d1 ,  Dictionary<char,char> d2 )
+        protected bool DictionarsEquality(Dictionary<char, char> d1, Dictionary<char, char> d2)
         {
             int nr = 0;
             foreach (var k1 in d1)
-                    if (k1.Value == d2[k1.Key])
-                        nr++;
+                if (k1.Value == d2[k1.Key])
+                    nr++;
 
-            if(nr==26)
+            if (nr == 26)
                 return true;
-            else 
+            else
                 return false;
         }
 

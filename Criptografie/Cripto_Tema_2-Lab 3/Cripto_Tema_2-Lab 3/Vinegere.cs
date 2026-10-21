@@ -8,25 +8,12 @@ namespace Cripto_Tema_2_Lab_3
 {
     public class Vinegere : Cryptography
     {
-        private char[] plainText;
-        private char[] cipherText;
         private char[] Key;
 
         public Vinegere(string plaintext , string password)
         {
             NormalizePlaintext(plaintext);
             GenerateKey(password);
-        }
-
-        private void NormalizePlaintext(string plaintext)
-        {
-            string[] RemovingPunctuation = plaintext.Split(' ', ',', '.', '!', '?', ':', ';');
-            string text = "";
-
-            for (int i = 0; i < RemovingPunctuation.Length; i++)
-                text = text + RemovingPunctuation[i].ToUpper();
-
-            plainText = text.ToCharArray();
         }
 
         private void GenerateKey(string password)
