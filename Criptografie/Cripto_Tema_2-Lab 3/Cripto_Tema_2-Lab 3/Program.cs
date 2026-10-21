@@ -92,6 +92,23 @@ namespace Tema_2_Criptografie
                 Console.WriteLine(vinegere.Decryption());
             }
 
+            if(n==3)
+            {
+                Console.WriteLine("Ati ales Cilindrul Jefferson ! Introduceti un numar care apartine intervalului [1,25] cu ajutorul acesteia se creaza criptarea .");
+                Console.Write("Numarul ales este : ");
+                load2= Console.ReadLine();
+                Console.WriteLine();
+
+                JeffersonDisk JefD = new JeffersonDisk(PlainText , int.Parse(load2));
+                Console.WriteLine("Criptarea informatiei este :");
+                Console.WriteLine(JefD.Encryption());
+                Console.WriteLine();
+                Console.WriteLine("Decriptarea informatiei criptate este :");
+                Console.WriteLine(JefD.Decryption());
+
+
+            }
+
         }
     }
 }
