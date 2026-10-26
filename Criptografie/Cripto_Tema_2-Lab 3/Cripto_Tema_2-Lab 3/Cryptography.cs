@@ -19,7 +19,7 @@ namespace Cripto_Tema_2_Lab_3
         protected char[] cipherText;
         protected char[] plainText;
 
-    // ----------------------------------------     METHODS     --------------------------------------------------
+        #region Methods
         protected void NormalizePlaintext(string plaintext)
         {
             string[] RemovingPunctuation = plaintext.Split(' ', ',', '.', '!', '?', ':', ';');
@@ -32,16 +32,16 @@ namespace Cripto_Tema_2_Lab_3
         }
         public void Shuffle<T>(T[] newKey)
         {
+            Random rn = new Random();
             for (int i = 0; i < newKey.Length - 2; i++)
             {
-                Random rn = new Random();
                 int j = rn.Next(i, newKey.Length - 1);
                 T aux = newKey[i];
                 newKey[i] = newKey[j];
                 newKey[j] = aux;
             }
         }
-        
+        #endregion
 
         // ----------------------------------------   ABSTRACT METHODS   -------------------------------------------
         public abstract string Encryption();

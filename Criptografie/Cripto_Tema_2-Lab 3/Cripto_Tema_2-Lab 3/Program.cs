@@ -84,7 +84,7 @@ namespace Tema_2_Criptografie
                 load2 = Console.ReadLine();
                 Console.WriteLine();
 
-                Vinegere vinegere = new Vinegere(PlainText, load2);
+                Vigenere vinegere = new Vigenere(PlainText, load2);
                 Console.WriteLine("Criptarea informatiei este :");
                 Console.WriteLine(vinegere.Encryption());
                 Console.WriteLine();

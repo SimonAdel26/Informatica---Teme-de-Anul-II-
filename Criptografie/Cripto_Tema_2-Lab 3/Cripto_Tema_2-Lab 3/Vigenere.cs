@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Cripto_Tema_2_Lab_3
 {
-    public class Vinegere : Cryptography
+    public class Vigenere : Cryptography
     {
         private char[] Key;
 
-        public Vinegere(string plaintext , string password)
+        public Vigenere(string plaintext , string password)
         {
             NormalizePlaintext(plaintext);
             GenerateKey(password);
