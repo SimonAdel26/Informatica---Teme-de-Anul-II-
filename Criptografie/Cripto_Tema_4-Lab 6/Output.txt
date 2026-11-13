@@ -1,0 +1,2 @@
+Salut lume!
+Acesta este un test pentru algoritmii AES, DES, TripleDES, RC2 si Rijndael.

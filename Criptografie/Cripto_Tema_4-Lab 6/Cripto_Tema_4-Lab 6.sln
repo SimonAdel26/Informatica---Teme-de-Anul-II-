@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37827.9
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cripto_Tema_4-Lab 6", "Cripto_Tema_4-Lab 6\Cripto_Tema_4-Lab 6.csproj", "{E5AEC044-1D38-459D-8A35-66F646854953}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E5AEC044-1D38-459D-8A35-66F646854953}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5AEC044-1D38-459D-8A35-66F646854953}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5AEC044-1D38-459D-8A35-66F646854953}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5AEC044-1D38-459D-8A35-66F646854953}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {43A72D03-4C80-47A2-9502-052962D939EA}
+	EndGlobalSection
+EndGlobal
