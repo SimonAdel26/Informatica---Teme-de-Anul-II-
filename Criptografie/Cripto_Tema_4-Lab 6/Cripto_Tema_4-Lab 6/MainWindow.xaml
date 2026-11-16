@@ -128,6 +128,7 @@
                       Width="180"
                       Height="40"
                       x:Name="cmbOperationMode"
+                      SelectionChanged ="cmbOperationMode_SelectionChanged" 
                       VerticalAlignment="Center">
 
             <ComboBoxItem Content="ECB"
@@ -169,7 +170,8 @@
         <ComboBox Grid.Row="4"
         Grid.Column="1"
         Height="40"
-        x:Name="cmbPadding">
+        x:Name="cmbPadding"
+        SelectionChanged ="cmbPadding_SelectionChanged">
 
             <ComboBoxItem Content="None"
                           FontSize="13"/>

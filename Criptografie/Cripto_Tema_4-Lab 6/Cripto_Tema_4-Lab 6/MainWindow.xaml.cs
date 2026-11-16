@@ -24,15 +24,12 @@ namespace Cripto_Tema_4_Lab_6
     {
 
         private byte[] plaintext;
-        private byte[] ciphertext;
 
         private CipherMode ModOperare;
         private PaddingMode PaddingMod;
 
         private bool InputPath;
         public bool OutputPath;
-
-
 
         public MainWindow()
         {
@@ -56,7 +53,7 @@ namespace Cripto_Tema_4_Lab_6
                 InputPath = true;
             }
 
-            ReadingFileInByte(txtInputFile.Text);
+            plaintext = File.ReadAllBytes(dialog.FileName);
 
         }
 
@@ -65,11 +62,35 @@ namespace Cripto_Tema_4_Lab_6
             OpenFileDialog dialog = new OpenFileDialog();
 
             dialog.Filter = "Text files (*.txt)|*.txt";
+            dialog.CheckFileExists = false;
 
             if (dialog.ShowDialog() == true)
             {
                 txtOutputFile.Text = dialog.FileName;
                 OutputPath = true;
+            }
+        }
+
+
+        private void cmbOperationMode_SelectionChanged(object sender , SelectionChangedEventArgs e)
+        {
+            if (cmbOperationMode.SelectedItem != null)
+            {
+                string mod = ((ComboBoxItem)cmbOperationMode.SelectedItem).Content.ToString();
+
+                ModOperare = Enum.Parse<CipherMode>(mod);
+            }
+        }
+
+        private void cmbPadding_SelectionChanged(object sender , SelectionChangedEventArgs e)
+        {
+            if (cmbPadding.SelectedItem != null)
+            {
+                string mod =
+                    ((ComboBoxItem)cmbPadding.SelectedItem)
+                    .Content.ToString();
+
+                PaddingMod = Enum.Parse<PaddingMode>(mod);
             }
         }
 
@@ -105,37 +126,41 @@ namespace Cripto_Tema_4_Lab_6
                 return;
             }
 
-            GetOperationMode();
-            GetPaddingMode();
-
             string selectAlforitm =((ComboBoxItem)cmbAlgoritm.SelectedItem).Content.ToString();
 
-  
+            SymmetricAlgorithm alg;
+
 
             switch(selectAlforitm)
             {
                 case "AES":
-                    AES_Encryption();
+                    alg = Aes.Create();
+                    Encryption(alg);
                     break;
 
                 case "DES":
-                    DES_Encryption();
+                    alg = DES.Create();
+                    Encryption(alg);
                     break;
 
                 case "TripleDES":
-                    TripleDES_Encryption();
+                    alg = TripleDES.Create();
+                    Encryption(alg);
                     break;
 
                 case "RC2":
-                    RC2_Encryption();
+                    alg = RC2.Create();
+                    Encryption(alg);
                     break;
 
-                case "Rijndeal":
-                    Rijndael_Encryption();
+                case "Rijndael":
+                    alg = Rijndael.Create();
+                    Encryption(alg);
                     break;
 
             }
 
+            MessageBox.Show("S-a realizat criptarea textului .");
 
         }
 
@@ -183,253 +208,88 @@ namespace Cripto_Tema_4_Lab_6
                 return;
             }
 
-            GetOperationMode();
-            GetPaddingMode();
-
-            SymmetricAlgorithm algorithm;
-
             string selectalgoritm = ((ComboBoxItem)cmbAlgoritm.SelectedItem).Content.ToString();
 
-            switch(selectalgoritm)
+            SymmetricAlgorithm alg;
+
+            switch (selectalgoritm)
             {
                 case "AES":
-                    AES_Decryption();
+                    alg = Aes.Create();
+                    Decryption(alg);
                     break;
 
                 case "DES":
-                    DES_Decryption();
+                    alg = DES.Create();
+                    Decryption(alg);
                     break;
 
                 case "TripleDES":
-                    TripleDES_Decryption();
+                    alg = TripleDES.Create();
+                    Decryption(alg);
                     break;
 
                 case "RC2":
-                    RC2_Decryption();
+                    alg = RC2.Create();
+                    Decryption(alg);
                     break;
 
                 case "Rijndael":
-                    Rijndael_Decryption();
+                    alg = Rijndael.Create();
+                    Decryption(alg);
                     break;
             }
 
+            MessageBox.Show("S-a realizat decriptarea textului !");
         }
 
         #endregion
 
         #region Algoritm Endryption 
-        private void AES_Encryption()
+        private void Encryption(SymmetricAlgorithm algorithm)
         {
-            Aes aes = Aes.Create();
+            algorithm.Mode = ModOperare;
+            algorithm.Padding = PaddingMod;
 
-            aes.Mode = ModOperare;
-            aes.Padding = PaddingMod;
+            ICryptoTransform encryptor = algorithm.CreateEncryptor();
 
-            aes.GenerateKey();
-            aes.GenerateIV();
-
-            ICryptoTransform encryptor = aes.CreateEncryptor();
-
-            WriteFileInByteAndTransformFinalBlock(encryptor);
-
-            KeyText.Text = Convert.ToHexString(aes.Key);
-            IVText.Text = Convert.ToHexString(aes.IV);
-
-        }
-
-        private void DES_Encryption()
-        {
-            DES des = DES.Create();
-
-            des.Mode = ModOperare;
-            des.Padding = PaddingMod;
-
-            des.GenerateKey();
-            des.GenerateIV();
-
-            ICryptoTransform encryptor =
-            des.CreateEncryptor();
-
-            WriteFileInByteAndTransformFinalBlock(encryptor);
-
-            KeyText.Text = Convert.ToHexString(des.Key);
-            IVText.Text = Convert.ToHexString(des.IV);
-        }
-
-        private void TripleDES_Encryption()
-        {
-            TripleDES trpleDes = TripleDES.Create();
-
-            trpleDes.Mode = ModOperare;
-            trpleDes.Padding = PaddingMod;
-
-            trpleDes.GenerateKey();
-            trpleDes.GenerateIV();
-
-            ICryptoTransform encryptor =trpleDes.CreateEncryptor();
-
-            WriteFileInByteAndTransformFinalBlock(encryptor);
-
-            KeyText.Text = Convert.ToHexString(trpleDes.Key);
-            IVText.Text = Convert.ToHexString(trpleDes.IV   );
-
-        }
-
-        private void RC2_Encryption()
-        {
-            RC2 rc2 = RC2.Create();
-
-            rc2.Mode = ModOperare;
-            rc2.Padding = PaddingMod;
-
-            rc2.GenerateKey();
-            rc2.GenerateIV();
-
-            ICryptoTransform encryptor = rc2.CreateEncryptor();
-
-            WriteFileInByteAndTransformFinalBlock(encryptor);
-
-            KeyText.Text = Convert.ToHexString(rc2.Key);
-            IVText.Text = Convert.ToHexString(rc2.IV);
-
-        }
-
-        private void Rijndael_Encryption()
-        {
-            Rijndael rij = Rijndael.Create();
-
-            rij.Mode = ModOperare;
-            rij.Padding = PaddingMod;
-
-            rij.GenerateKey();
-            rij.GenerateIV();
-
-            ICryptoTransform encryptor = rij.CreateEncryptor();
-
-            WriteFileInByteAndTransformFinalBlock(encryptor);
-
-            KeyText.Text = Convert.ToHexString(rij.Key);
-            IVText.Text = Convert.ToHexString(rij.IV);
-
-        }
-
-        #endregion
-
-        #region Algoritm Decryption
-
-        private void AES_Decryption()
-        {
-            Aes aes = Aes.Create();
-
-            aes.Mode = ModOperare;
-            aes.Padding = PaddingMod;
-
-            aes.Key = Convert.FromHexString(KeyText.Text);
-            aes.IV = Convert.FromHexString(IVText.Text);
-
-            ICryptoTransform decryptor =aes.CreateDecryptor();
-
-            WriteFileInByteAndTransformFinalBlock(decryptor);
-
-        }
-
-        private void DES_Decryption()
-        {
-            DES des = DES.Create();
-
-            des.Mode = ModOperare;
-            des.Padding = PaddingMod;
-
-            des.Key = Convert.FromHexString(KeyText.Text);
-            des.IV = Convert.FromHexString(IVText.Text);
-
-            ICryptoTransform decryptor = des.CreateDecryptor();
-
-            WriteFileInByteAndTransformFinalBlock(decryptor);
-
-        }
-
-        private void TripleDES_Decryption()
-        {
-            TripleDES tripleDES = TripleDES.Create();
-
-            tripleDES.Mode = ModOperare;
-            tripleDES.Padding = PaddingMod;
-
-            tripleDES.Key = Convert.FromHexString(KeyText.Text);
-            tripleDES.IV = Convert.FromHexString(IVText.Text);
-
-            ICryptoTransform decryptor = tripleDES.CreateDecryptor();
-
-            WriteFileInByteAndTransformFinalBlock(decryptor);
-        }
-
-        private void RC2_Decryption()
-        {
-            RC2 rc2 = RC2.Create();
-
-            rc2.Mode = ModOperare;
-            rc2.Padding = PaddingMod;
-
-            rc2.Key = Convert.FromHexString(KeyText.Text);
-            rc2.Key = Convert.FromHexString(IVText.Text);
-
-            ICryptoTransform decryptor = rc2.CreateDecryptor();
-
-            WriteFileInByteAndTransformFinalBlock(decryptor);
-
-        }
-
-        private void Rijndael_Decryption()
-        {
-            Rijndael rij = Rijndael.Create();
-
-            rij.Mode = ModOperare;
-            rij.Padding = PaddingMod;
-
-            rij.Key = Convert.FromHexString(KeyText.Text);
-            rij.Key = Convert.FromHexString(IVText.Text);
-
-            ICryptoTransform decryptor = rij.CreateDecryptor();
-
-            WriteFileInByteAndTransformFinalBlock(decryptor);
-
-        }
-
-        #endregion
-
-        #region Methods
-
-        private void ReadingFileInByte(string filename)
-        {
-           plaintext = File.ReadAllBytes(filename);
-        }
-
-        private void WriteFileInByteAndTransformFinalBlock(ICryptoTransform crypt)
-        {
             byte[] encrypted =
-               crypt.TransformFinalBlock(
+               encryptor.TransformFinalBlock(
                    plaintext,
                    0,
                    plaintext.Length);
 
             File.WriteAllBytes(txtOutputFile.Text, encrypted);
+
+            KeyText.Text = Convert.ToHexString(algorithm.Key);
+            IVText.Text = Convert.ToHexString(algorithm.IV);
         }
-
-        private void GetOperationMode()
-        {
-            string mod =((ComboBoxItem)cmbOperationMode.SelectedItem).Content.ToString();
-
-            ModOperare = Enum.Parse<CipherMode>(mod);
-        }
-
-        private void GetPaddingMode()
-        {
-            string mod = ((ComboBoxItem)cmbPadding.SelectedItem).Content.ToString();
-
-            PaddingMod = Enum.Parse<PaddingMode>(mod);
-        }
-
         #endregion
+
+        #region Algoritm Decryption
+
+        private void Decryption(SymmetricAlgorithm algorithm)
+        {
+            algorithm.Mode = ModOperare;
+            algorithm.Padding = PaddingMod;
+
+            algorithm.Key = Convert.FromHexString(KeyText.Text);
+            algorithm.IV = Convert.FromHexString(IVText.Text);
+
+            ICryptoTransform decryptor = algorithm.CreateDecryptor();
+
+            byte[] encrypted =
+                decryptor.TransformFinalBlock(
+                    plaintext,
+                    0,
+                    plaintext.Length);
+
+            File.WriteAllBytes(txtOutputFile.Text, encrypted);
+        }
+
+        
+        #endregion
+
+
     }
 }
